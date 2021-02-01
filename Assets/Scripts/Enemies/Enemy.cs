@@ -1,22 +1,27 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class GreenEnemy : MonoBehaviour, IDamageable, IIncrease
+public class Enemy : MonoBehaviour, IDamageable, IIncrease
 {
     private float speed = 1f;
 
-    private int enemyDamage = 60;
-    private int enemyHealth = 60;
-    private int enemyGold = 60;
-    private int life = 1;
+    public Material materialColor;
+    public int enemyDamage = 50;
+    public int enemyHealth = 50;
+    public int enemyGold = 50;
+    public int life = 1;
 
-    private GameObject tower;
+    private GameObject Tower;
 
     private Transform target;
     private int wayPointsIndex = 0;
 
     void Start()
     {
-        tower = GameObject.FindWithTag("MyTower");
+        gameObject.GetComponent<MeshRenderer>().material = materialColor;
+        Debug.Log(enemyHealth);
+        Tower = GameObject.FindWithTag("MyTower");
         target = WayPoints.points[0];
     }
 
@@ -55,7 +60,7 @@ public class GreenEnemy : MonoBehaviour, IDamageable, IIncrease
         }
     }
 
-    public void GetDamage(int damageValue)
+    public void GetDamage(int damageValue) // минус жизни врага, демидж от сторожевой башни
     {
         enemyHealth -= damageValue;
 
@@ -69,7 +74,7 @@ public class GreenEnemy : MonoBehaviour, IDamageable, IIncrease
 
     public void GiveGold()
     {
-        var gold = tower.GetComponent<IGold>();
+        var gold = Tower.GetComponent<IGold>();
         if (gold != null)
         {
             gold.GoldForMurder(enemyGold);
@@ -78,7 +83,7 @@ public class GreenEnemy : MonoBehaviour, IDamageable, IIncrease
 
     public void DeadPoint()
     {
-        var dead = tower.GetComponent<IDead>();
+        var dead = Tower.GetComponent<IDead>();
         if (dead != null)
         {
             dead.Dead(life);
