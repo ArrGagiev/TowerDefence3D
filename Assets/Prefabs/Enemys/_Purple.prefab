@@ -107,11 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7c611aca5990f49a37ff65d16fd95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialColor: {fileID: 2100000, guid: 9998a8be02710a546aaa91d88ac54448, type: 2}
-  enemyDamage: 70
-  enemyHealth: 70
-  enemyGold: 70
-  life: 1
+  EnemyData: {fileID: 11400000, guid: 6094fa13073ee6b4783fb1c0cb4902b9, type: 2}
 --- !u!54 &-844389958936488174
 Rigidbody:
   m_ObjectHideFlags: 0
