@@ -4,33 +4,19 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable, IIncrease
 {
+    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    //говорят тут что-то было ))
+    //это духи _полей которых тут больше нет
+    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     public EnemyData EnemyData;
-
-    private Material _materialColor;
-    private float _speed;
-    private int _enemyDamage;
-    private int _enemyHealth;
-    private int _enemyGold;
-    private int _life;
-    
-
     private GameObject Tower;
-
     private Transform target;
     private int wayPointsIndex = 0;
 
     private void Awake()
     {
-        _materialColor = EnemyData.MaterialColor;
-        GetComponent<MeshRenderer>().material = _materialColor;
-        _speed = EnemyData.Speed;
-        _enemyDamage = EnemyData.EnemyDamage;
-        _enemyHealth = EnemyData.EnemyHealth;
-        _enemyGold = EnemyData.EnemyGold;
-        _life = EnemyData.Life;
-        //=================================================================
         
-        Debug.Log(_enemyHealth);
         Tower = GameObject.FindWithTag("MyTower");
         target = WayPoints.points[0];
     }
@@ -38,7 +24,7 @@ public class Enemy : MonoBehaviour, IDamageable, IIncrease
     private void Update()//***
     {
         Vector3 direction = target.position - transform.position;
-        transform.Translate(direction.normalized * _speed * Time.deltaTime, Space.World);
+        transform.Translate(direction.normalized * EnemyData.Speed * Time.deltaTime, Space.World);
 
         if (Vector3.Distance(transform.position, target.position) <= 0.1f)
         {
@@ -50,36 +36,35 @@ public class Enemy : MonoBehaviour, IDamageable, IIncrease
     {
         if (wayPointsIndex >= WayPoints.points.Length - 1)
         {
-            /*Destroy*/
-            Lean.Pool.LeanPool.Despawn(gameObject);
+            Destroy(gameObject); //----------------------------<<<   болячка*
             return;
         }
         wayPointsIndex++;
         target = WayPoints.points[wayPointsIndex];
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //враг наносит урон и умирает
     {
         if (other.CompareTag("MyTower"))
         {
             var damageable = other.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.GetDamage(_enemyDamage);
+                damageable.GetDamage(EnemyData.EnemyDamage);
             }
-            gameObject.SetActive(false);
+            Lean.Pool.LeanPool.Despawn(gameObject);
         }
     }
 
     public void GetDamage(int damageValue) // минус жизни врага, демидж от сторожевой башни
     {
-        _enemyHealth -= damageValue;
+        EnemyData.EnemyHealth -= damageValue;
 
-        if (_enemyHealth <= 0)
+        if (EnemyData.EnemyHealth <= 0)
         {
             GiveGold();
-            DeadPoint();
-            Destroy(gameObject);
+            //DeadPoint();
+            Lean.Pool.LeanPool.Despawn(gameObject);
         }
     }
 
@@ -88,21 +73,21 @@ public class Enemy : MonoBehaviour, IDamageable, IIncrease
         var gold = Tower.GetComponent<IGold>();
         if (gold != null)
         {
-            gold.GoldForMurder(_enemyGold);
+            gold.GoldForMurder(EnemyData.EnemyGold);
         }
     }
 
-    public void DeadPoint()
-    {
-        var dead = Tower.GetComponent<IDead>();
-        if (dead != null)
-        {
-            dead.Dead(_life);
-        }
-    }
+    //public void DeadPoint()
+    //{
+    //    var dead = Tower.GetComponent<IDead>();
+    //    if (dead != null)
+    //    {
+    //        dead.Dead(_life);
+    //    }
+    //}
 
     public void Increase(int HealthUp)
     {
-        _enemyHealth += HealthUp;
+        EnemyData.EnemyHealth += HealthUp;
     }
 }

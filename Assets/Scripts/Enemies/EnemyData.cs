@@ -10,5 +10,4 @@ public class EnemyData : ScriptableObject
     public int EnemyDamage;
     public int EnemyHealth;
     public int EnemyGold;
-    public int Life;//1
 }
