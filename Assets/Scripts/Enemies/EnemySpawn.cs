@@ -8,25 +8,18 @@ public class EnemySpawn : MonoBehaviour
 
     public GameObject[] enemies;
     private int waveCount;
-    private int enemiesCount;
     private float waveDelay;
+    private int enemiesCount;
     private int healthBonus = 10;
     private int waveValue;
     private float enemyDelay = 1f;
 
-    
-
-    void Start()
+    private void Awake()
     {
         waveDelay = controller.waveDelay;
         waveCount = controller.waveCount;
         waveValue = waveCount;
         StartCoroutine(WaveTrigger());
-    }
-
-    void Update()
-    {
-        
     }
 
     IEnumerator EnemySpawner()
@@ -35,7 +28,8 @@ public class EnemySpawn : MonoBehaviour
         for (int i = enemiesCount; i > 0; i--)
         {
             int randomEnemy = Random.Range(0, enemies.Length);
-            GameObject enemy = Instantiate(enemies[randomEnemy], transform.position, Quaternion.identity) as GameObject;
+            /*Instantiate*/
+            GameObject enemy = Lean.Pool.LeanPool.Spawn(enemies[randomEnemy], transform.position, Quaternion.identity) as GameObject;//*
 
             //---------------------------------------------------<< передаем врагам бонус здоровья
             var instEnemy = enemy.GetComponent<IIncrease>();
@@ -78,4 +72,5 @@ public class EnemySpawn : MonoBehaviour
             healthBonus += healthBonus;
         }
     }
+
 }

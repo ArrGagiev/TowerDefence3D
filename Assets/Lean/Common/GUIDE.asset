@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f829fb59d581584da44bfad082779d3, type: 3}
-  m_Name: OrangeEnemyData
+  m_Script: {fileID: 11500000, guid: 65f14352023e7024bbd09d26a3e8379e, type: 3}
+  m_Name: GUIDE
   m_EditorClassIdentifier: 
-  MaterialColor: {fileID: 0}
-  Speed: 1.2
-  EnemyDamage: 60
-  EnemyHealth: 60
-  EnemyGold: 60
-  Life: 1
+  LongName: Lean Common
+  ShortName: LeanCommon
+  Documentation: {fileID: 4900000, guid: 343b9ec9f5c2b3a43b6e4cd68f5286ca, type: 3}

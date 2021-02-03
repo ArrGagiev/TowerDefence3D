@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f829fb59d581584da44bfad082779d3, type: 3}
-  m_Name: PurpleEnemyData
+  m_Name: OrangeEnemyData
   m_EditorClassIdentifier: 
-  MaterialColor: {fileID: 0}
-  Speed: 1.4
-  EnemyDamage: 70
-  EnemyHealth: 70
-  EnemyGold: 70
+  MaterialColor: {fileID: 2100000, guid: 2a44f25ecdacd054cb4473f3ac3b6c5b, type: 2}
+  Speed: 1.2
+  EnemyDamage: 60
+  EnemyHealth: 60
+  EnemyGold: 60
   Life: 1

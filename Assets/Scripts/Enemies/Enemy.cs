@@ -12,12 +12,7 @@ public class Enemy : MonoBehaviour, IDamageable, IIncrease
     private int _enemyHealth;
     private int _enemyGold;
     private int _life;
-    //private float speed = 1f;
-    //public Material materialColor;
-    //public int enemyDamage = 50;
-    //public int enemyHealth = 50;
-    //public int enemyGold = 50;
-    //public int life = 1; //передаю в ЮИ количество убитых врагов
+    
 
     private GameObject Tower;
 
@@ -34,7 +29,7 @@ public class Enemy : MonoBehaviour, IDamageable, IIncrease
         _enemyGold = EnemyData.EnemyGold;
         _life = EnemyData.Life;
         //=================================================================
-        //gameObject.GetComponent<MeshRenderer>().material = materialColor;
+        
         Debug.Log(_enemyHealth);
         Tower = GameObject.FindWithTag("MyTower");
         target = WayPoints.points[0];
@@ -55,7 +50,8 @@ public class Enemy : MonoBehaviour, IDamageable, IIncrease
     {
         if (wayPointsIndex >= WayPoints.points.Length - 1)
         {
-            Destroy(gameObject);
+            /*Destroy*/
+            Lean.Pool.LeanPool.Despawn(gameObject);
             return;
         }
         wayPointsIndex++;
