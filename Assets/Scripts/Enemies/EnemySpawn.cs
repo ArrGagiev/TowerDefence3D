@@ -6,7 +6,7 @@ public class EnemySpawn : MonoBehaviour
     public GameController controller;
     //--------------------------------//
 
-    public GameObject[] enemies; // я менял тип массива, но тогда... {str30}
+    public Enemy[] enemies;
     private int waveCount;
     private float waveDelay;
     private int enemiesCount;
@@ -27,16 +27,12 @@ public class EnemySpawn : MonoBehaviour
         enemiesCount = waveCount + Random.Range(0, 5); // рандомное количество врагов в каждой волне (K + X)
         for (int i = enemiesCount; i > 0; i--)
         {
-            int randomEnemy = Random.Range(0, enemies.Length); //...крашится вот это выражение..........................................
+            int randomEnemy = Random.Range(0, enemies.Length);
             /*Instantiate*/
-            GameObject enemy = Lean.Pool.LeanPool.Spawn(enemies[randomEnemy], transform.position, Quaternion.identity) as GameObject; //......и это тоже...
+            Enemy enemy = Lean.Pool.LeanPool.Spawn(enemies[randomEnemy], transform.position, Quaternion.identity);
 
             //---------------------------------------------------<< передаем врагам бонус здоровья
-            var instEnemy = enemy.GetComponent<IIncrease>();
-            if (instEnemy != null)
-            {
-                instEnemy.Increase(healthBonus);
-            }
+            enemy.Increase(healthBonus);
             //---------------------------------------------------<<
 
             yield return new WaitForSeconds(enemyDelay);

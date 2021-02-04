@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour, IDamageable, IIncrease
 
     private void Awake()
     {
-        
+        GetComponent<MeshRenderer>().material = EnemyData.MaterialColor; ;
         Tower = GameObject.FindWithTag("MyTower");
         target = WayPoints.points[0];
     }
