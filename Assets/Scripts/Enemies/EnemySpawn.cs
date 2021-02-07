@@ -4,69 +4,68 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    public GameController controller;
+    public GameController Controller;
     //--------------------------------//
 
-    public Enemy[] enemies;
-    private int waveCount;
-    private float waveDelay;
-    private int enemiesCount;
-    private int healthBonus = 10;
-    private int waveValue;
-    private float enemyDelay = 1f;
+    public Enemy[] Enemies;
+    private int _waveCount;
+    private float _waveDelay;
+    private int _enemiesCount;
+    private int _healthBonus = 10;
+    private int _waveValue;
+    private float _enemySpawnDelay = 1f;
 
     private void Awake()
     {
-        waveDelay = controller.waveDelay;
-        waveCount = controller.waveCount;
-        waveValue = waveCount;
+        _waveDelay = Controller.waveDelay;
+        _waveCount = Controller.waveCount;
+        _waveValue = _waveCount;
         StartCoroutine(WaveTrigger());
     }
 
     IEnumerator EnemySpawner()
     {
-        enemiesCount = waveCount + Random.Range(0, 5); // рандомное количество врагов в каждой волне (K + X)
-        for (int i = enemiesCount; i > 0; i--)
+        _enemiesCount = _waveCount + Random.Range(0, 5); // рандомное количество врагов в каждой волне (K + X)
+        for (int i = _enemiesCount; i > 0; i--)
         {
-            int randomEnemy = Random.Range(0, enemies.Length);
-            /*Instantiate*/
-            Enemy enemy = Lean.Pool.LeanPool.Spawn(enemies[randomEnemy], transform.position, Quaternion.identity);
+            int randomEnemy = Random.Range(0, Enemies.Length);
+            Enemy enemy = Lean.Pool.LeanPool.Spawn(Enemies[randomEnemy], transform.position, Quaternion.identity);
 
             //---------------------------------------------------<< передаем врагам бонус здоровья
-            enemy.Increase(healthBonus);
+            enemy.Increase(_healthBonus);
             //---------------------------------------------------<<
 
-            yield return new WaitForSeconds(enemyDelay);
+            yield return new WaitForSeconds(_enemySpawnDelay);
         }
         yield return StartCoroutine(WaveTrigger());
     }
 
     IEnumerator WaveTrigger()
     {
-        if (waveCount <= 0)
+        if (_waveCount <= 0)
         {
             StopCoroutine(WaveTrigger());
         }
 
-        yield return new WaitForSeconds(waveDelay);
+        yield return new WaitForSeconds(_waveDelay);
 
-        if (waveCount <= 0)
+        if (_waveCount <= 0)
         {
             StopCoroutine(EnemySpawner());
         }
         else
-        StartCoroutine(EnemySpawner());
-
+        {
+            StartCoroutine(EnemySpawner());
+        }
         HealthUp(); // увеличиваем бонус здоровья каждую волну
-
-        waveCount--;
+        _waveCount--;
     }
 
     public void HealthUp()
     {
-        if (waveCount != waveValue)
+        if (_waveCount != _waveValue)
         {
-            healthBonus += healthBonus;
+            _healthBonus += _healthBonus;
         }
     }
 
